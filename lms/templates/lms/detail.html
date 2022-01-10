@@ -25,8 +25,8 @@ active
                 <li class="list-group-item">药品名： <strong>{{ medicine.name }}</strong></li>
                 <li class="list-group-item">药品信息:</li>
                 <li class="list-group-item">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ medicine.detail }}</li>
-                <li class="list-group-item">药品已使用量： {{ medicine.usedtotal }}  g</li>
-                <li class="list-group-item">药品剩余量： {{ medicine.nowtotal }}  g</li>
+                <li class="list-group-item">药品已使用量： {{ medicine.usedtotal }} g</li>
+                <li class="list-group-item">药品剩余量： {{ medicine.nowtotal }} g</li>
                 <li class="list-group-item">风险度： {{ medicine.riskfactor }}</li>
             </ul>
         </div>
@@ -36,34 +36,78 @@ active
         <div class="col-md-6">
             <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
             <div id="main" style="width: 600px;height:400px;"></div>
-            <script type="text/javascript">
-                // 基于准备好的dom，初始化echarts实例
-                var myChart = echarts.init(document.getElementById('main'));
+{#            <script type="text/javascript">#}
+{#                // 基于准备好的dom，初始化echarts实例#}
+{#                var myChart = echarts.init(document.getElementById('main'));#}
+{##}
+{#                // 指定图表的配置项和数据#}
+{#                var option = {#}
+{#                    series: [#}
+{#                        {#}
+{#                            name: '药品数据',#}
+{#                            type: 'pie',#}
+{#                            radius: '55%',#}
+{#                            data: [#}
+{#                                {value: {{ medicine.usedtotal }}, name: '药品已使用量' + {{ medicine.usedtotal }}},#}
+{#                                {value: {{ medicine.nowtotal }}, name: '药品剩余量' +{{ medicine.nowtotal }}},#}
+{#                            ],#}
+{#                            roseType: 'angle',#}
+{#                            itemStyle: {#}
+{#                                normal: {#}
+{#                                    shadowBlur: 200,#}
+{#                                    shadowColor: 'rgba(0, 0, 0.5, 0.5)'#}
+{#                                }#}
+{#                            }#}
+{#                        }#}
+{#                    ]#}
+{#                };#}
+{##}
+{#                // 使用刚指定的配置项和数据显示图表。#}
+{#                myChart.setOption(option);#}
+{#            </script>#}
 
-                // 指定图表的配置项和数据
-                var option = {
+
+            <script type="text/javascript">
+                var chartDom = document.getElementById('main');
+                var myChart = echarts.init(chartDom);
+                var option;
+
+                option = {
+                    title: {
+                        text: 'Information of medicine',
+                        subtext: '数据',
+                        left: 'center'
+                    },
+                    tooltip: {
+                        trigger: 'item'
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        left: 'left'
+                    },
                     series: [
                         {
-                            name: '药品数据',
+                            name: '量（/g）',
                             type: 'pie',
-                            radius: '55%',
+                            radius: '50%',
                             data: [
-                                {value: {{ medicine.usedtotal }}, name: '药品已使用量' + {{ medicine.usedtotal }} },
-                                {value: {{ medicine.nowtotal }}, name: '药品剩余量' +{{ medicine.nowtotal }} },
+                                {value: {{ medicine.usedtotal }}, name: '药品已使用量' + {{ medicine.usedtotal }}},
+                                {value: {{ medicine.nowtotal }}, name: '药品剩余量' +{{ medicine.nowtotal }}},
+
                             ],
-                            roseType: 'angle',
-                            itemStyle: {
-                                normal: {
-                                    shadowBlur: 200,
-                                    shadowColor: 'rgba(0, 0, 0.5, 0.5)'
+                            emphasis: {
+                                itemStyle: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
                                 }
                             }
                         }
                     ]
                 };
 
-                // 使用刚指定的配置项和数据显示图表。
-                myChart.setOption(option);
+                option && myChart.setOption(option);
+
             </script>
         </div>
 

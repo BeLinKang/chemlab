@@ -1,6 +1,5 @@
 import datetime
 import json
-
 from dateutil.relativedelta import relativedelta
 from django.db import connection
 from django.contrib.auth.decorators import login_required
@@ -14,6 +13,11 @@ from .models import *
 from django.contrib.auth import authenticate, login, logout
 from .forms import UserCustomRegister, UserCustomChange
 from django.contrib.auth.models import User
+
+
+# 总的登录界面
+def loginOfAll(request):
+    return render(request, 'lms/loginOfAll.html')
 
 
 def index(request):
@@ -353,16 +357,17 @@ def chart1(request):
 
 
 def chart2(request):
-    """查询近一周借用数量最多的药品的数量前五"""
+    """查询近一月借用数量最多的药品的数量前五"""
     today = datetime.datetime.now()
-    lastweek = (datetime.datetime.now() - relativedelta(months=1))
-    # print(today)
+    lastmonth = (datetime.datetime.now() - relativedelta(months=1))
+    print(today)
+    print(lastmonth)
 
     cursor = connection.cursor()
     sql1 = "select sum(medicineUsedNum) totalUsed, medicine_id, name " \
            "from lms_borrow,lms_medicine where lms_borrow.medicine_id=lms_medicine.id and boDate between %s and %s group by medicine_id order by totalUsed limit 5"
 
-    cursor.execute(sql1, [lastweek, today])
+    cursor.execute(sql1, [lastmonth, today])
     ret1 = cursor.fetchall()
     # print(ret)
     # ((Decimal('10'), 21, '二甲基甲苯'), (Decimal('12'), 11, '氯化钠'))
@@ -379,9 +384,11 @@ def chart2(request):
            "and boDate between %s and %s " \
            "group by lms_borrow.user_id order by record limit 5"
 
-    cursor.execute(sql2, [lastweek, today])
+    cursor.execute(sql2, [lastmonth, today])
     ret2 = cursor.fetchall()
     print(ret2)
+
+    cursor.close()
 
     user_list = []
     count_list = []
@@ -415,6 +422,118 @@ def chart2(request):
     return render(request, 'lms/chart2.html', context)
 
 
-# 总的登录界面
-def loginOfAll(request):
-    return render(request, 'lms/loginOfAll.html')
+import pandas as pd
+
+
+def getData(time1, time2):
+    #     """得到数据"""
+    cursor = connection.cursor()
+    sql1 = ''' select  name ,sum(medicineUsedNum)  from lms_borrow, lms_medicine where lms_borrow.medicine_id=lms_medicine.id and boDate between %s and %s group by lms_medicine.id'''
+    cursor.execute(sql1, [time1, time2])
+    data4 = cursor.fetchall()
+    data4 = pd.DataFrame(list(data4), columns=['药品', '使用量'])
+    cursor.close()
+    #
+    return data4
+
+
+def getRisk():
+    """获取近一月有借用纪录的药品的名字和风险度"""
+    cursor = connection.cursor()
+    lastmonth = (datetime.datetime.now() - relativedelta(months=1))
+    sql = ''' select distinct name, riskfactor from lms_borrow, lms_medicine where lms_borrow.medicine_id=lms_medicine.id and boDate>=%s '''
+    cursor.execute(sql, lastmonth)
+    data = cursor.fetchall()
+    data = pd.DataFrame(list(data), columns=['药品', '风险度'])
+    cursor.close()
+    return data
+
+
+from decimal import Decimal
+
+
+def predict(request):
+    """预警算法"""
+    if request.method == 'GET':
+        today = datetime.datetime.now()
+        # print('今天： ' + str(today))
+        lastweek1 = (datetime.datetime.now() - relativedelta(weeks=1))
+        lastweek2 = (datetime.datetime.now() - relativedelta(weeks=2))
+        lastweek3 = (datetime.datetime.now() - relativedelta(weeks=3))
+        lastmonth = (datetime.datetime.now() - relativedelta(months=1))
+        df1 = getData(lastweek1, today)
+        # print(df1)
+        # print('------')
+        df2 = getData(lastweek2, lastweek1)
+        df3 = getData(lastweek3, lastweek2)
+        df4 = getData(lastmonth, lastweek3)
+        df_merge = pd.merge(df1, df2, on='药品', how='outer')
+        # print(df_merge)
+        df_merge = pd.merge(df_merge, df3, on='药品', how='outer')
+        df_merge = pd.merge(df_merge, df4, on='药品', how='outer')
+        df_merge.columns = ['药品', '1', '2', '3', '4']
+        df_merge.fillna(0, inplace=True)
+
+        # print(df_merge)
+
+        def sumweight(a, b, c, d):
+            # Decimal.from_float
+            return Decimal.from_float(
+                float(a) * (0.4) + float(b) * (0.3) + float(c) * (0.2) + float(d) * (0.1)).quantize(Decimal('0.00'))
+
+        df_merge['res'] = df_merge.apply(lambda x: sumweight(x['1'], x['2'], x['3'], x['4']), axis=1)
+        # print(df_merge)
+
+        df_merge['1'] = df_merge['1'].astype('float')
+        df_merge['2'] = df_merge['2'].astype('float')
+        df_merge['3'] = df_merge['3'].astype('float')
+        df_merge['4'] = df_merge['4'].astype('float')
+        df_merge['res'] = df_merge['res'].astype('float')
+
+        # 接收
+        df_1 = getRisk()
+        # print(df_1)
+        df_2 = pd.DataFrame()
+        df_2['药品'] = df_merge['药品']
+        df_2['res'] = df_merge['res']
+
+        df_r = pd.merge(df_1, df_2, on='药品', how='outer')
+
+        def judge(x1, x2):
+            factor = x1 * x2
+            if factor > 200:
+                return "危险"
+            elif factor < 100:
+                return "安全"
+            else:
+                return "风险"
+
+        df_r['level'] = df_r.apply(lambda x: judge(x['res'], x['风险度']), axis=1)
+        print(df_r)
+
+        result_x = df_merge.values.tolist()
+        print("-----------------------------------------")
+
+        result_x.insert(0, ['药品', '近1周', '近2周', '近3周', '近4周', '预测下周使用量'])
+        print(result_x)
+
+        name_list = []
+        level_list = []
+        for i in range(0, len(df_r)):
+            name_list.append(df_r.iloc[i]['药品'])
+            level_list.append(df_r.iloc[i]['level'])
+        #
+        # print(name_list)
+        # print(level_list)
+
+        fianl = dict(zip(name_list, level_list))
+        print(fianl)
+
+        context = {
+            # 'name_list': name_list,
+            'fianl_list': fianl,
+            # 'level_list': level_list,
+            'result_x': result_x
+        }
+
+        return render(request, 'lms/predict.html', context)

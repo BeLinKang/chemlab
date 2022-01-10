@@ -213,8 +213,12 @@ SIMPLEUI_CONFIG = {
                 'url': 'chart1',
                 'icon': 'far fa-surprise'
             }, {
-                'name': '近一周',
+                'name': '近一月',
                 'url': 'chart2',
+                'icon': 'fab fa-github'
+            }, {
+                'name': '预警页面',
+                'url': 'predict',
                 'icon': 'fab fa-github'
             }]
         }]

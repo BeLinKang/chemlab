@@ -54,20 +54,6 @@ class CommonUser(models.Model):
         return str(self.user)
 
 
-# class SpecialUser(models.Model):
-#     """老师表"""
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     nickyName = models.CharField('昵称', blank=True, max_length=50)
-#     teacherName = models.CharField('姓名', max_length=50)
-#     cate = models.BooleanField('类别', default=True)
-#     faculty = models.CharField('系别', max_length=20, blank=False, default='undefine')
-#
-#     class Meta:
-#         verbose_name = '教师信息'
-#         verbose_name_plural = verbose_name
-#
-#     def __str__(self):
-#         return str(self.user)
 
 
 class Borrow(models.Model):

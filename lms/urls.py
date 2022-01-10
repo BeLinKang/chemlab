@@ -25,4 +25,5 @@ urlpatterns = [
     # admin中的
     path('admin/chart1/', views.chart1, name='chart1'),
     path('admin/chart2/', views.chart2, name='chart2'),
+    path('admin/predict/', views.predict, name='predict'),
 ]
