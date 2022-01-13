@@ -55,7 +55,7 @@
     kv = {{ data|safe }};//取出后台传递的数据，此处添加safe过滤避免警告
     var test = new Array();//声明一个新的字典用于存放数据
     for (var logKey in kv) {
-    //将对应键值对取出存入test，logKey 为该字典的键
+        //将对应键值对取出存入test，logKey 为该字典的键
         test.push({value: kv[logKey], name: logKey});
     }
 
@@ -111,7 +111,7 @@
                 <a href="https://gitee.com/zcystart/chemlab.git" style=" color: gray;">ChanceZhou</a>
             </div>
         </div>
-
+    </div>
 </footer>
 </body>
 </html>

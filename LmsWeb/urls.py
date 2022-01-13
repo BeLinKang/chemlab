@@ -23,7 +23,6 @@ from django.conf.urls import include
 from django.views.generic import RedirectView
 
 urlpatterns = [
-
                   path('admin/', admin.site.urls),
                   path('', include(lms.urls)),
 
