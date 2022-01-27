@@ -462,11 +462,15 @@ def predict(request):
         lastweek3 = (datetime.datetime.now() - relativedelta(weeks=3))
         lastmonth = (datetime.datetime.now() - relativedelta(months=1))
         df1 = getData(lastweek1, today)
-        # print(df1)
+        print(df1)
         # print('------')
         df2 = getData(lastweek2, lastweek1)
+        print(df2)
         df3 = getData(lastweek3, lastweek2)
+        print(df3)
         df4 = getData(lastmonth, lastweek3)
+        print(df4)
+
         df_merge = pd.merge(df1, df2, on='药品', how='outer')
         # print(df_merge)
         df_merge = pd.merge(df_merge, df3, on='药品', how='outer')
@@ -474,7 +478,7 @@ def predict(request):
         df_merge.columns = ['药品', '1', '2', '3', '4']
         df_merge.fillna(0, inplace=True)
 
-        # print(df_merge)
+        print(df_merge)
 
         def sumweight(a, b, c, d):
             # Decimal.from_float
@@ -489,10 +493,10 @@ def predict(request):
         df_merge['3'] = df_merge['3'].astype('float')
         df_merge['4'] = df_merge['4'].astype('float')
         df_merge['res'] = df_merge['res'].astype('float')
-
         # 接收
         df_1 = getRisk()
-        # print(df_1)
+        print(df_1)
+
         df_2 = pd.DataFrame()
         df_2['药品'] = df_merge['药品']
         df_2['res'] = df_merge['res']
@@ -514,7 +518,7 @@ def predict(request):
         result_x = df_merge.values.tolist()
         print("-----------------------------------------")
 
-        result_x.insert(0, ['药品', '近1周', '近2周', '近3周', '近4周', '预测下周使用量'])
+        result_x.insert(0, ['药品', '近1周', '近2周~近1周', '近3周~近2周', '近4周~近3周', '预测下周使用量'])
         print(result_x)
 
         name_list = []
@@ -537,3 +541,7 @@ def predict(request):
         }
 
         return render(request, 'lms/predict.html', context)
+
+
+def userInfo(request):
+    return render(request, 'lms/usr_info.html')

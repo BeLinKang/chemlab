@@ -19,15 +19,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'c85-k0x$o1f=-m=a018tv)vljkmn^e=yx05@ch#&r+*b9g0z03'
+SECRET_KEY = 'c85-k0x$o1f=-m=a018tv)vljkmn^e=yx05@ch#&r+*b9g0z03'
 # 部署
-import os
-
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'c85-k0x$o1f=-m=a018tv)vljkmn^e=yx05@ch#&r+*b9g0z03')
+# import os
+# SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'c85-k0x$o1f=-m=a018tv)vljkmn^e=yx05@ch#&r+*b9g0z03')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = False
-DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
+DEBUG = True
+# DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
 
 # ALLOWED_HOSTS = ['47.100.254.234']
@@ -45,7 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'lms.apps.LmsConfig',
-    # 'smart_chart.echart'
 ]
 
 MIDDLEWARE = [
@@ -55,7 +53,6 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    # smart需注释
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -170,48 +167,7 @@ SIMPLEUI_ANALYSIS = True
 SIMPLEUI_CONFIG = {
     # 在自定义菜单的基础上保留系统模块
     'system_keep': True,
-    'menus': [
-
-        #     {
-        #     # 自2021.02.01+ 支持多级菜单，models 为子菜单名，理论上可以无限级
-        #     'name': '多级菜单测试',
-        #     'icon': 'fa fa-file',
-        #     'models': [{
-        #         'name': 'Baidu',
-        #         'icon': 'far fa-surprise',
-        #         'models': [
-        #             {
-        #                 'name': '爱奇艺',
-        #                 'models': [
-        #                     {'name': '视频直播'},
-        #
-        #                     {'name': 'TV直播',
-        #                      'models': [
-        #                          {'name': '视频直播'}
-        #                      ]},
-        #
-        #                 ]
-        #             }, {
-        #                 'name': '百度问答'
-        #             }
-        #         ]
-        #     }, {
-        #         'name': 'Google',
-        #         'icon': 'far fa-surprise',
-        #         'models': [{
-        #             'name': 'Youtube',
-        #             'icon': 'far fa-surprise'
-        #         }, {
-        #             'name': 'Gmail',
-        #             'icon': 'far fa-surprise'
-        #         }, {
-        #             'name': 'Search',
-        #             'url': 'https://www.google.com'
-        #         }]
-        #     }]
-        # },
-
-        {
+    'menus': [{
             'name': '可视化',
             'icon': 'fa fa-file',
             'models': [{

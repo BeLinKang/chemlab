@@ -21,6 +21,7 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('detail/<int:medicineId>', views.medicineDetail, name='medicineDetail'),
     path('medicineSearch/', views.medicineSearch, name='medicineSearch'),
+    path('user_info/',views.userInfo,name='userInfo'),
 
     # admin中的
     path('admin/chart1/', views.chart1, name='chart1'),

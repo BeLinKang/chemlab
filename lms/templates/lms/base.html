@@ -15,15 +15,12 @@
 
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'lms/css/bootstrap.min.css' %}">
+    {#<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">#}
+    {#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>#}
+    {#    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">#}
+    {#    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>#}
 
-{#    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">#}
-{#    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>#}
-
-
-
-    {#<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">#}
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="{% static 'lms/css/base.css' %}">
@@ -31,14 +28,16 @@
     <link rel="stylesheet" href="{% block css %}
     {% endblock css %}">
     {# css of each site   #}
+
+
 </head>
 
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <img src="{% static 'lms/icons/login.png' %}"
+    <img src="{% static 'lms/icons/login1.png' %}"
          width="33" height="33" class="d-inline-block align-top" alt="">
-    <a class="navbar-brand" href="#">LMS</a>
+    <a class="navbar-brand" href="#">ChemLab</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -54,20 +53,21 @@
                 <a class="nav-link" href="{% url 'lms:lab' %}">实验室列表<span class="sr-only">(current)</span></a>
             </li>
 
-            {#            <li class="nav-item {% block passHighlight %}{% endblock %}">#}
-            {#                <a class="nav-link" href="{% url 'lms:changePassword' %}">修改密码</a>#}
-            {#            </li>#}
-
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle"  id="userInfo" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">用户</a>
-                <div class="dropdown-menu" aria-labelledby="userInfo">
-                    <a class="dropdown-item" href="{% url 'lms:userCentre' %}">个人信息</a>
-                    <a class="dropdown-item" href="{% url 'lms:borrowHistory' %}">借阅历史</a>
-
-                    <a class="dropdown-item" href="{% url 'lms:changePassword' %}">修改密码</a>
-                </div>
+            <li class="nav-item {% block userHighlight %}{% endblock %}">
+                <a class="nav-link" href="{% url 'lms:userInfo' %}">个人中心</a>
             </li>
+
+
+{#            <li class="nav-item dropdown">#}
+{#                <a class="nav-link dropdown-toggle" id="userInfo" data-toggle="dropdown"#}
+{#                   aria-haspopup="true" aria-expanded="false" href="#">个人中心</a>#}
+{#                <div class="dropdown-menu" aria-labelledby="userInfo">#}
+{#                    <a class="dropdown-item" href="{% url 'lms:userCentre' %}">个人信息</a>#}
+{#                    <a class="dropdown-item" href="{% url 'lms:borrowHistory' %}">借阅历史</a>#}
+{#                    <a class="dropdown-item" href="{% url 'lms:changePassword' %}">修改密码</a>#}
+{#                </div>#}
+{#            </li>#}
+
 
             {#            <li class="nav-item {% block aboutHighlight %}{% endblock %}">#}
             {#                <a class="nav-link disabled" href="{% url 'lms:about' %}">关于</a>#}
@@ -76,10 +76,10 @@
                 <a class="nav-link disabled" href="{% url 'lms:about' %}">关于</a>
             </li>
 
-{#        test chart1#}
-{#            <li class="nav-item" >#}
-{#                <a class="nav-link disabled" href="{% url 'lms:chart1' %}">chart</a>#}
-{#            </li>#}
+            {#        test chart1#}
+            {#            <li class="nav-item" >#}
+            {#                <a class="nav-link disabled" href="{% url 'lms:chart1' %}">chart</a>#}
+            {#            </li>#}
 
         </ul>
 
@@ -121,12 +121,14 @@
 
 </main>
 <footer class="footer">
-    <div class="text-center" >
-       <a href="https://gitee.com/zcystart/chemlab.git">&copy;Lab 2021</a>
+    <div class="text-center">
+        <a href="https://gitee.com/zcystart/chemlab.git">&copy;Lab 2021</a>
     </div>
 </footer>
+
+
 <!-- Bootstrap core JavaScript
-================================================== -->
+    ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -134,8 +136,10 @@
 <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
-<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+{#<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"#}
+{#        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"#}
+{#        crossorigin="anonymous"></script>#}
+<script src="{% static 'lms/js/bootstrap.min.js' %}"></script>
+
 </body>
 </html>
