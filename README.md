@@ -55,6 +55,32 @@ python manage.py createsuperuser
 
 
 ###页面展示
+![image text](https://gitee.com/zcystart/chemlab/blob/master/lms/static/lms/example/pic/loginOfAll.jpg)
+
+学生端
+![image text](https://gitee.com/zcystart/chemlab/blob/master/lms/static/lms/example/pic/login.jpg)
+![image text](https://gitee.com/zcystart/chemlab/raw/master/lms/static/lms/example/pic/about.jpg)
+![image text](https://gitee.com/zcystart/chemlab/raw/master/lms/static/lms/example/pic/detail.jpg)
+![image text](https://gitee.com/zcystart/chemlab/raw/master/lms/static/lms/example/pic/index.jpg)
+![image text](https://gitee.com/zcystart/chemlab/blob/master/lms/static/lms/example/pic/lab.jpg)
+![image text](https://gitee.com/zcystart/chemlab/raw/master/lms/static/lms/example/pic/register.jpg)
+![image text](https://gitee.com/zcystart/chemlab/raw/master/lms/static/lms/example/pic/search.jpg)
+![image text](https://gitee.com/zcystart/chemlab/raw/master/lms/static/lms/example/pic/userCentre.jpg)
+![image text](https://gitee.com/zcystart/chemlab/raw/master/lms/static/lms/example/pic/usr_info.jpg)
+![image text](https://gitee.com/zcystart/chemlab/raw/master/lms/static/lms/example/pic/borrow.jpg)
+![image text](https://gitee.com/zcystart/chemlab/raw/master/lms/static/lms/example/pic/borrowHistory.jpg)
+![image text](https://gitee.com/zcystart/chemlab/raw/master/lms/static/lms/example/pic/changePass.jpg)
+
+管理端
+![image text](https://gitee.com/zcystart/chemlab/raw/master/lms/static/lms/example/pic/adminlogin.jpg)
+![image text](https://gitee.com/zcystart/chemlab/raw/master/lms/static/lms/example/pic/adminindex.jpg)
+![image text](https://gitee.com/zcystart/chemlab/raw/master/lms/static/lms/example/pic/chart1.jpg)
+![image text](https://gitee.com/zcystart/chemlab/raw/master/lms/static/lms/example/pic/chart2.jpg)
+![image text](https://gitee.com/zcystart/chemlab/raw/master/lms/static/lms/example/pic/daochu.jpg)
+![image text](https://gitee.com/zcystart/chemlab/raw/master/lms/static/lms/example/pic/bo.jpg)
+![image text](https://gitee.com/zcystart/chemlab/blob/master/lms/static/lms/example/pic/predict.jpg)
+
+
 
 
 
