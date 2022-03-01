@@ -46,7 +46,10 @@
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item  {% block indexHighlight %}{% endblock %}">
-                <a class="nav-link" href="{% url 'lms:lms_index' %}">浏览 <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{% url 'lms:lms_index' %}">药品列表 <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item  {% block insindexHighlight %}{% endblock %}">
+                <a class="nav-link" href="{% url 'lms:ins_index' %}">仪器列表 <span class="sr-only">(current)</span></a>
             </li>
 
             <li class="nav-item  {% block labHighlight %}{% endblock %}">
@@ -58,15 +61,15 @@
             </li>
 
 
-{#            <li class="nav-item dropdown">#}
-{#                <a class="nav-link dropdown-toggle" id="userInfo" data-toggle="dropdown"#}
-{#                   aria-haspopup="true" aria-expanded="false" href="#">个人中心</a>#}
-{#                <div class="dropdown-menu" aria-labelledby="userInfo">#}
-{#                    <a class="dropdown-item" href="{% url 'lms:userCentre' %}">个人信息</a>#}
-{#                    <a class="dropdown-item" href="{% url 'lms:borrowHistory' %}">借阅历史</a>#}
-{#                    <a class="dropdown-item" href="{% url 'lms:changePassword' %}">修改密码</a>#}
-{#                </div>#}
-{#            </li>#}
+            {#            <li class="nav-item dropdown">#}
+            {#                <a class="nav-link dropdown-toggle" id="userInfo" data-toggle="dropdown"#}
+            {#                   aria-haspopup="true" aria-expanded="false" href="#">个人中心</a>#}
+            {#                <div class="dropdown-menu" aria-labelledby="userInfo">#}
+            {#                    <a class="dropdown-item" href="{% url 'lms:userCentre' %}">个人信息</a>#}
+            {#                    <a class="dropdown-item" href="{% url 'lms:borrowHistory' %}">借阅历史</a>#}
+            {#                    <a class="dropdown-item" href="{% url 'lms:changePassword' %}">修改密码</a>#}
+            {#                </div>#}
+            {#            </li>#}
 
 
             {#            <li class="nav-item {% block aboutHighlight %}{% endblock %}">#}

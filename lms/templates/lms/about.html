@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
--关于
+    -关于
 {% endblock %}
 
 {% block css %}
@@ -13,12 +13,27 @@
     active
 {% endblock %}
 {% block main_block %}
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
     <div class="row">
-        <div class="col-1"></div>
-        <div class="col-10">
+
+        <div class="col-8">
             <div class="alert alert-success text-center " role="alert">
-               To learn more about me ,click the button on the footer
+                To learn more about me ,click the button on the footer
             </div>
+
+            {#            <a href="#" id="download">Medicine-2022-01-27.xls</a>#}
+            {#            <script type="text/javascript">#}
+            {#                $().ready(function () {#}
+            {#                    $('#download').click(function () {#}
+            {#                        var fileid = $(this).text();#}
+            {#alert(id)#}
+            {#                        return fileid;#}
+            {#                    });#}
+            {#                })#}
+            {#            </script>#}
+
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -51,7 +66,14 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
+
+
         </div>
-        <div class="col-1"></div>
+
+{#        <div class="col-4">#}
+{#            <a href="{% url 'lms:download_template1' %}" id="download1">华东理工大学实验室安全事故应急预案（试行）.doc</a><br>#}
+{#            <a href="{% url 'lms:download_template2' %}" id="download2">华东理工大学实验室工作条例.doc</a><br>#}
+{#            <a href="{% url 'lms:download_template3' %}" id="download3">华东理工大学突发危险化学品事件应急预案（试行）.doc</a><br>#}
+{#        </div>#}
     </div>
 {% endblock %}

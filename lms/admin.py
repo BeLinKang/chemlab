@@ -37,7 +37,7 @@ class ProxyBorrow(resources.ModelResource):
 
 class BorrowAdmin(ImportExportActionModelAdmin, AjaxAdmin):
     resource_class = ProxyBorrow
-    list_display = ['id', 'user', 'medicine', 'medicineUsedNum', 'boDate' ]
+    list_display = ['id', 'user', 'medicine', 'medicineUsedNum', 'boDate']
     # list_editable = ['medicineUsedNum']
     list_filter = ['boDate', 'user', ]
     list_display_links = ['user', ]
@@ -68,9 +68,21 @@ class UserAdmin(BaseUserAdmin):
 
 
 class LabAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name','description']
+    list_display = ['id', 'name', 'description']
     list_per_page = 10
     ordering = ['id']
+
+
+class InstrumentAdmin(admin.ModelAdmin):
+    list_display = ['id', 'ins_no', 'ins_name', 'ins_nowtotal', 'ins_bototal', 'ins_detail']
+    list_per_page = 5
+    ordering = ['ins_no']
+
+
+class InsBorrowAdmin(admin.ModelAdmin):
+    list_display = ['id', 'ins_user', 'instrument', 'ins_boNum', 'ins_boDate']
+    list_per_page = 5
+    ordering = ['-ins_boDate']
 
 
 admin.site.unregister(User)
@@ -78,6 +90,8 @@ admin.site.register(User, UserAdmin)
 admin.site.register(Medicine, MedicineAdmin)
 admin.site.register(Borrow, BorrowAdmin)
 admin.site.register(Lab, LabAdmin)
+admin.site.register(Instrument,InstrumentAdmin)
+admin.site.register(InsBorrow,InsBorrowAdmin)
 
 admin.site.site_header = '实验室药品分析与预警系统'
 admin.site.site_title = '实验室药品分析与预警系统后台'

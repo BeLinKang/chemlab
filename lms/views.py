@@ -1,12 +1,14 @@
 import datetime
 import json
+import os
+
 from dateutil.relativedelta import relativedelta
 from django.db import connection
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.paginator import Paginator, PageNotAnInteger, InvalidPage, EmptyPage
 from django.db.models import Q, Count
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, FileResponse
 from django.shortcuts import render, redirect, reverse
 # Create your views here.
 from .models import *
@@ -545,3 +547,99 @@ def predict(request):
 
 def userInfo(request):
     return render(request, 'lms/usr_info.html')
+
+
+def ins_index(request):
+    if request.method == 'GET':
+        InstrumentList = Instrument.objects.all()
+        # 将数据按照规定每页显示 8 条, 进行分割
+        paginator = Paginator(InstrumentList, 8)
+
+        # 获取 url 后面的 page 参数的值, 首页不显示 page 参数, 默认值是 1
+        page = request.GET.get('page')
+        instrumentList = paginator.get_page(page)
+
+        content = {
+            'instrumentList': instrumentList,
+            'currentUser': request.user,
+        }
+
+        return render(request, 'lms/ins_index.html', content)
+
+
+@login_required(login_url='lms:login')
+def ins_subAndBo(request, ins_id):
+    if request.method == 'POST':
+        thisNum = int(request.POST.get('insUsedNum'))
+        thisUser = User.objects.get(pk=request.user.id)
+        print(thisUser)
+        thisInstrument = Instrument.objects.get(pk=ins_id)
+        if thisInstrument.ins_nowtotal <= thisNum:
+            return render(request, 'lms/error.html', {"failInfo": "失败！库存不足！"})
+
+        else:
+            thisInstrument.ins_bototal += thisNum
+            thisInstrument.ins_nowtotal -= thisNum
+            thisInstrument.save()
+            newBorrow = InsBorrow(ins_user=thisUser.commonuser,
+                                  instrument=thisInstrument, ins_boNum=thisNum)
+            newBorrow.save()
+            return redirect('lms:ins_index')
+
+
+# 学生借阅历史查看
+@login_required(login_url='lms:login')
+def borrowInsHistory(request):
+    # need id to define special user
+    if request.method == 'GET':
+        user = CommonUser.objects.filter(user=request.user).first()
+        InstrumentListTarget = InsBorrow.objects.filter(ins_user=user).order_by("-ins_boDate")
+        InstrumentList = []
+        for borrowInfo in InstrumentListTarget:
+            borrowTime = datetime.datetime.now().day - borrowInfo.ins_boDate.day
+            InstrumentList.append((Instrument.objects.get(pk=borrowInfo.instrument.id), borrowInfo, borrowTime))
+
+        content = {
+            'InstrumentList': InstrumentList,
+            'currentUser': request.user
+        }
+        return render(request, 'lms/ins_borrowHistory.html', content)
+
+
+# def download_template1(request):
+#     the_file_name = '华东理工大学实验室安全事故应急预案（试行）.doc'
+#     PROJECT_ROOT = os.path.dirname(__file__)
+#     path1 = os.path.join(PROJECT_ROOT, 'static\\lms\\files\\' + the_file_name),
+#     print(path1)
+#     path = path1[0]
+#     file = open(str(path), 'rb')
+#     response = FileResponse(file)
+#     response['Content-Type'] = 'application/octet-stream'
+#     response['Content-Disposition'] = 'attachment;filename="{0}"'.format(the_file_name)
+#     return response
+#
+#
+# def download_template2(request):
+#     the_file_name = '华东理工大学实验室工作条例.doc'
+#     PROJECT_ROOT = os.path.dirname(__file__)
+#     path1 = os.path.join(PROJECT_ROOT, 'static\\lms\\files\\' + the_file_name),
+#     print(path1)
+#     path = path1[0]
+#     file = open(str(path), 'rb')
+#     response = FileResponse(file)
+#     response['Content-Type'] = 'application/octet-stream'
+#     response['Content-Disposition'] = 'attachment;filename="{0}"'.format(the_file_name)
+#     return response
+#
+#
+# def download_template3(request):
+#     the_file_name = '华东理工大学突发危险化学品事件应急预案（试行）.doc'
+#     PROJECT_ROOT = os.path.dirname(__file__)
+#     path1 = os.path.join(PROJECT_ROOT, 'static\\lms\\files\\' + the_file_name),
+#     print(path1)
+#     path = path1[0]
+#     file = open(str(path), 'rb')
+#     response = FileResponse(file)
+#     response['Content-Type'] = 'application/octet-stream'
+#     response['Content-Disposition'] = 'attachment;filename="{0}"'.format(the_file_name)
+#     return response
