@@ -1,16 +1,18 @@
 import datetime
 import json
 import os
-
+import requests
 from dateutil.relativedelta import relativedelta
 from django.db import connection
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.paginator import Paginator, PageNotAnInteger, InvalidPage, EmptyPage
 from django.db.models import Q, Count
-from django.http import HttpResponse, JsonResponse, FileResponse
+from django.http import HttpResponse, JsonResponse, FileResponse, Http404
 from django.shortcuts import render, redirect, reverse
 # Create your views here.
+from django.utils.encoding import escape_uri_path
+
 from .models import *
 from django.contrib.auth import authenticate, login, logout
 from .forms import UserCustomRegister, UserCustomChange
@@ -84,8 +86,10 @@ def lab(request):
 
 
 def about(request):
-    # need id to define special book
-    return render(request, 'lms/about.html')
+    if request.method == 'GET':
+        docList = Doc.objects.all()
+
+        return render(request, 'lms/about.html', locals())
 
 
 def medicineSearch(request):
@@ -643,3 +647,43 @@ def borrowInsHistory(request):
 #     response['Content-Type'] = 'application/octet-stream'
 #     response['Content-Disposition'] = 'attachment;filename="{0}"'.format(the_file_name)
 #     return response
+def download_file(request, doc_id):
+    if request.method == 'GET':
+        file_result = Doc.objects.filter(id=doc_id)
+        if file_result:
+            file = list(file_result)[0]
+
+            file_name = file.file_name
+            file_path = file.file_path
+            # static/lms/files/华东理工大学实验室安全事故应急预案（试行）.doc
+
+            ip = 'http://127.0.0.1:8000/'
+            path = ip + file_path
+            # http://127.0.0.1:8000/static/lms/files/华东理工大学实验室安全事故应急预案（试行）.doc
+
+            # 该方法无法下载
+            # file = open(path, 'rb')
+            # response = FileResponse(file)
+            # response['Content-Type'] = 'application/octet-stream'
+            # response['Content-Disposition'] = 'attachment;filename="{0}"'.format(file_name)
+            # return response
+
+            # 方法二
+            try:
+                response = FileResponse(requests.get(path, stream=True))
+            except requests.exceptions.ConnectionError as e:
+                response.status_code = 'Connection Refused!'
+
+            file_ext = path.split(".")[-1]
+            if not file_ext:
+                pass
+            else:
+                file_ext = file_ext.lower()
+
+            response['Content-Type'] = 'application/octet-stream'
+            FileName = escape_uri_path(path).split('/')[-1]
+            response['Content-Disposition'] = 'attachment;filename="{0}"'.format(FileName)
+            return  response
+        else:
+
+            return HttpResponse("文件不存在")

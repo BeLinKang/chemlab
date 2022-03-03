@@ -70,10 +70,13 @@
 
         </div>
 
-{#        <div class="col-4">#}
-{#            <a href="{% url 'lms:download_template1' %}" id="download1">华东理工大学实验室安全事故应急预案（试行）.doc</a><br>#}
-{#            <a href="{% url 'lms:download_template2' %}" id="download2">华东理工大学实验室工作条例.doc</a><br>#}
-{#            <a href="{% url 'lms:download_template3' %}" id="download3">华东理工大学突发危险化学品事件应急预案（试行）.doc</a><br>#}
-{#        </div>#}
+
+        <div>
+
+            {% for doc in docList %}
+                <h1><a href="{% url 'lms:download_file' doc.id %}">{{ doc.file_name }}</a></h1><br>
+            {% endfor %}
+
+        </div>
     </div>
 {% endblock %}

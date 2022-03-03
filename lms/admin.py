@@ -93,5 +93,7 @@ admin.site.register(Lab, LabAdmin)
 admin.site.register(Instrument,InstrumentAdmin)
 admin.site.register(InsBorrow,InsBorrowAdmin)
 
+admin.site.register(Doc)
+
 admin.site.site_header = '实验室药品分析与预警系统'
 admin.site.site_title = '实验室药品分析与预警系统后台'

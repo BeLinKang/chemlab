@@ -31,6 +31,7 @@ urlpatterns = [
     path('medicineSearch/', views.medicineSearch, name='medicineSearch'),
     path('user_info/',views.userInfo,name='userInfo'),
 
+    path('download_file/<int:doc_id>',views.download_file,name='download_file'),
     # path('download_template1/',views.download_template1,name='download_template1'),
     # path('download_template2/',views.download_template2,name='download_template2'),
     # path('download_template3/',views.download_template3,name='download_template3'),

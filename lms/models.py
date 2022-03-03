@@ -98,3 +98,16 @@ class InsBorrow(models.Model):
     instrument = models.ForeignKey(Instrument, on_delete=models.CASCADE, verbose_name='借用仪器', )
     ins_boNum = models.PositiveIntegerField('借用数量', default=0)
     ins_boDate = models.DateTimeField('借用时间', auto_now_add=True)
+
+
+class Doc(models.Model):
+    class Meta:
+        verbose_name = '文件'
+        verbose_name_plural = verbose_name
+
+    #  文件名称
+    file_name = models.CharField('文件名字', max_length=50)
+    #  文件保存路径
+    file_path = models.CharField('文件路径', max_length=100)
+    #  上传时间
+    upload_time = models.DateTimeField('借用时间', auto_now_add=True)
