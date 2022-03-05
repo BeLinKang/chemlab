@@ -109,5 +109,10 @@ class Doc(models.Model):
     file_name = models.CharField('文件名字', max_length=50)
     #  文件保存路径
     file_path = models.CharField('文件路径', max_length=100)
+    # 文件
+    file_obj = models.FileField('文件', upload_to='files/')
     #  上传时间
     upload_time = models.DateTimeField('借用时间', auto_now_add=True)
+
+    def __str__(self):
+        return self.file_name

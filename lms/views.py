@@ -659,7 +659,7 @@ def download_file(request, doc_id):
 
             ip = 'http://127.0.0.1:8000/'
             path = ip + file_path
-            # http://127.0.0.1:8000/static/lms/files/华东理工大学实验室安全事故应急预案（试行）.doc
+            # http://127.0.0.1:8000/media/files/华东理工大学实验室安全事故应急预案试行.doc
 
             # 该方法无法下载
             # file = open(path, 'rb')
