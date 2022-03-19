@@ -89,6 +89,9 @@ python manage.py createsuperuser
 
 
 
+##donate
+如果你觉得这个项目对你有帮助，不如请作者杯咖啡
 
-
+<img src="https://gitee.com/zcystart/test-gitee/raw/master/38DEB6E3ABD6AD7C305392DA388387CC.jpg" alt="image text size" style="zoom: 25%;" />
+<img src="https://gitee.com/zcystart/test-gitee/raw/master/5566E434C1DADE8F7E933D0497095BFD.jpg" alt="image text size" style="zoom: 25%;" />
 
