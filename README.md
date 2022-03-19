@@ -88,6 +88,7 @@ python manage.py createsuperuser
     文件 lms/static/lms/example/xls/Medicine-2022-01-27.xls
 
 
+采用了开源的simpleui
 
 <br>
 <br>
