@@ -98,4 +98,25 @@ python manage.py createsuperuser
 <br/>
 <br/>
 
+2022-6-21更新
+#错误提示
 
+```
+query = query.decode(errors='replace')
+AttributeError: 'str' object has no attribute 'decode'
+
+```
+
+点击最后一条链接， 将decode改为encode
+
+    def last_executed_query(self, cursor, sql, params):
+        # With MySQLdb, cursor objects have an (undocumented) "_executed"
+        # attribute where the exact query sent to the database is saved.
+        # See MySQLdb/cursors.py in the source distribution.
+        query = getattr(cursor, '_executed', None)
+        if query is not None:
+            query = query.decode(errors='replace')
+        return query
+        
+        
+ query = query.encode(errors='replace')
